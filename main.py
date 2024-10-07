@@ -14,4 +14,5 @@ def clean_dataframe(df):
         d.drop_duplicates()
 
 clean_dataframe(df)
-analyze.barplot_dns_request_by_ip(df)
+#analyze.barplot_dns_request_by_ip(df)
+analyze.kdeplot_sourceport_to_destination_port(df)
