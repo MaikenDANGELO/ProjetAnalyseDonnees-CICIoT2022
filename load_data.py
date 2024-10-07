@@ -1,7 +1,7 @@
 import pandas as pd # type: ignore
 import os
 
-path = './dataset/'
+root_path = './dataset/'
 data_directories = []
 
 def get_files_from_dir(dir):
@@ -22,15 +22,16 @@ def load_data(files):
     dataframes = []
     i = -1
     for dir in files:
+        s = []
         for file in dir:
-            file_path = path + data_directories[i] + "/" + file
+            file_path = root_path + data_directories[i] + "/" + file
             df = pd.read_csv(file_path)
             df['device_name'] = get_file_name(file)[:-2]
-            dataframes.append(df)
+            s.append(df)
+        if(i >= 0):
+            dataframes.append(pd.concat(s))
         i += 1
-    return pd.concat(dataframes)
-
-print(load_data(get_files_from_dir(path)))
+    return dataframes
 
         
     
