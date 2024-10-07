@@ -5,6 +5,6 @@ import matplotlib.pyplot as plt # type: ignore
 
 def barplot_dns_request_by_ip(df):
     for d in df:
-        sns.barplot(data = d, x="ip_dst_new", y="DNS_count", hue="device_name")
+        sns.barplot(data = d, x="ip_dst_new", y="DNS_count", hue="device_feature")
     plt.savefig("result.png")
     plt.show()
