@@ -6,13 +6,12 @@ from load_data import load_data, get_files_from_dir, root_path
 import analyze
 
 df = load_data(get_files_from_dir(root_path))
+df = pd.concat(df)
 
 def clean_dataframe(df):
-    for d in df:
-        d.set_index('Unnamed: 0', inplace=True)
-        d.isna()
-        d.drop_duplicates()
+    df.set_index('Unnamed: 0', inplace=True)
+    df.dropna()
+    df.drop_duplicates()
 
 clean_dataframe(df)
-#analyze.barplot_dns_request_by_ip(df)
-analyze.kdeplot_sourceport_to_destination_port(df)
+analyze.barplot_dns_request_by_ip(df)
