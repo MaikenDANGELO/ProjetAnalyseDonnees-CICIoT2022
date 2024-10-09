@@ -19,9 +19,11 @@ clean_dataframe(df)
 describe.df_description(df)
 
 describe.shapes(df)
-describe.boxpolt_dns_request_by_ip(df)
-analyze.barplot_dns_request_by_ip(df)   
+describe.boxplot_msm_size(df)
+describe.describeDataProtocols(df)
+describe.boxplot_sum_et(df)
+#analyze.barplot_dns_request_by_ip(df)   
 
 #analyze.barplot_dns_request_by_ip(df)
-analyze.correlation_heat_map(df)
+#analyze.correlation_heat_map(df)
 
