@@ -16,4 +16,6 @@ def clean_dataframe(df):
 
 clean_dataframe(df)
 describe.df_description(df)
-analyze.barplot_dns_request_by_ip(df)
+describe.shapes(df)
+describe.boxpolt_dns_request_by_ip(df)
+analyze.barplot_dns_request_by_ip(df)   
