@@ -4,6 +4,7 @@ import numpy as np # type: ignore
 import matplotlib.pyplot as plt # type: ignore
 from load_data import load_data, get_files_from_dir, root_path
 import analyze
+import describe
 
 df = load_data(get_files_from_dir(root_path))
 df = pd.concat(df)
@@ -14,4 +15,5 @@ def clean_dataframe(df):
     df.drop_duplicates()
 
 clean_dataframe(df)
+describe.df_description(df)
 analyze.barplot_dns_request_by_ip(df)
