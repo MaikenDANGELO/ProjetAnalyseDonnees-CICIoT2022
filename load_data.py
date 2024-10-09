@@ -40,7 +40,7 @@ def load_data(files):
             device_name, device_feature = get_device_name_and_feature(file_name)
             #df['device'] = file_name
             df['device_name'] = device_name
-            #df['device_feature'] = device_feature
+            df['device_feature'] = device_feature
             s.append(df)
         if(i >= 0):
             dataframes.append(pd.concat(s))

@@ -17,5 +17,6 @@ def clean_dataframe(df):
 
 clean_dataframe(df)
 describe.df_description(df)
-#analyze.barplot_dns_request_by_ip(df)
-analyze.correlation_heat_map(df)
+#analyze.correlation_heat_map(df)
+#analyze.lineplot_total_length_on_most_freq_dport(df)
+analyze.lineplot_ethernetframesize_by_pck_size(df)
