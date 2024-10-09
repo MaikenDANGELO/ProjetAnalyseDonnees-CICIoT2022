@@ -2,6 +2,7 @@ import pandas as pd # type: ignore
 import seaborn as sns # type: ignore
 import numpy as np # type: ignore
 import matplotlib.pyplot as plt # type: ignore
+
 from load_data import load_data, get_files_from_dir, root_path
 import analyze
 import describe
@@ -16,4 +17,5 @@ def clean_dataframe(df):
 
 clean_dataframe(df)
 describe.df_description(df)
-analyze.barplot_dns_request_by_ip(df)
+#analyze.barplot_dns_request_by_ip(df)
+analyze.correlation_heat_map(df)

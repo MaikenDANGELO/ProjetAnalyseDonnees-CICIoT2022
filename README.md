@@ -14,7 +14,13 @@ Le jeu de données fourni comprend 28 appareils différents, lesquels ont été 
 
 ## Comment charger les données ?
 
+Avec autant de fichiers CSV, il est impensable de tous les charger et analyser un à un. C'est pourquoi nous avons écrit un script permettant de parcourir tous les dossiers et fichiers, et de les charger dans un seul dataframe. De plus nous ajoutons à chaque fichier une nouvelle colonne permettant de savoir de quel apparail les données proviennent, et une autre pour savoir sous quelles conditions étaient cet appareil.
+
 ## Quelles données ? Quels traitements ?
+
+Tout d'abord il faut nettoyer les données, par exemple en indexant correctement celles-ci, et en enlevant les valeurs nulles ou dupliquées. Après cela nous avons effectuer quelques tests pour prendre en main le jeu de données.
+
+Puis nous avons à décrire ces données, et trouver les colonnes interessantes / suspectes.
 
 ## Analyse de données
 
