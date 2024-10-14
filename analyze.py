@@ -22,7 +22,8 @@ def feature_importance(df):
     plt.show()
 
 def pairplot_feature_importance(df):
-    sns.pairplot(data=df[['most_freq_dport','most_freq_d_ip','most_freq_sport','epoch_timestamp', 'L3_ip_dst_count', 'device_name']], hue="device_name")
+    print("beginning pairplot..")
+    sns.pairplot(data=df[['most_freq_dport','most_freq_d_ip','most_freq_sport','epoch_timestamp', 'L3_ip_dst_count', 'device_category']], hue="device_category", corner=True)
     plt.suptitle("Pair plot most important features")
     plt.show()
 
