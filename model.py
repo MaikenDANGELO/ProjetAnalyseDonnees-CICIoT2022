@@ -4,7 +4,7 @@ import numpy as np # type: ignore
 import matplotlib.pyplot as plt # type: ignore
 from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
 
 def print_score(clf, X_train, y_train, X_test, y_test, train=True):
@@ -30,7 +30,7 @@ def print_score(clf, X_train, y_train, X_test, y_test, train=True):
 
 def split(df):
     X = df.drop('epoch_timestamp', axis=1)
-    y = df.epoch_timestamp
+    y = df.device_category
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
     return X_train,X_test,y_train,y_test
 
@@ -41,11 +41,14 @@ def linear_regression(df):
     imputer = SimpleImputer(strategy='mean')
     df[df.columns] = imputer.fit_transform(df)
     df['epoch_timestamp'].dropna(inplace=True)
-    lr_clf = RandomForestRegressor(random_state=42)
+    lr_clf = RandomForestClassifier(random_state=42)
     X_train, X_test, y_train, y_test = split(df)
     lr_clf.fit(X_train, y_train)
+
+    y_pred_train = lr_clf.predict(X_train)
+    y_pred_test = lr_clf.predict(X_test)
 
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
 
-    # FAUT RÉGLER TOUT ÇA
+    # Il faut faire ça pour chaque most important feature
