@@ -16,12 +16,11 @@ def clean_dataframe(df):
     df.drop_duplicates()
 
 clean_dataframe(df)
+
 describe.df_description(df)
-
 describe.shapes(df)
-describe.boxpolt_dns_request_by_ip(df)
-analyze.barplot_dns_request_by_ip(df)   
 
-#analyze.barplot_dns_request_by_ip(df)
 analyze.correlation_heat_map(df)
+#analyze.feature_importance(df)
+#analyze.pairplot_feature_importance(df)
 

@@ -9,10 +9,3 @@ def df_description(df):
 
 def shapes(df):
     print(df.shape)
-
-
-
-def boxpolt_dns_request_by_ip(df):
-    sns.boxplot(data = df, x="inter_arrival_time", y="average_et", hue="device_feature")
-    plt.savefig("result.png")
-    plt.show()
