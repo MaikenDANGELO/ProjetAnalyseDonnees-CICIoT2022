@@ -22,13 +22,21 @@ describe.df_description(df)
 describe.boxplot_msm_size(df)
 describe.describeDataProtocols(df)
 describe.boxplot_sum_et(df)"""
+"""describe.min_et(df)
 describe.med_et(df)
 describe.var(df)
 describe.q1(df)
 describe.q3(df)
 describe.sum_e(df)
 describe.max_e(df)
-describe.average(df)
+describe.average(df)"""
+
+#describe.epoch_timestamp(df)     #ne marche pas (programme plante à l'éxécution -> trop d'éléments ?)
+describe.most_freq_d_ip(df)
+describe.most_freq_dport(df)
+describe.most_freq_sport(df)
+
+
 #describe.describeTotalLength(df)
 #analyze.barplot_dns_request_by_ip(df)   
 

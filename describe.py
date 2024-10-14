@@ -115,6 +115,46 @@ def average(df):
     plt.show()
 
 
+def epoch_timestamp(df):
+    print(df['epoch_timestamp'].describe())
+    print(df['epoch_timestamp'].value_counts())
+    df['epoch_timestamp'].value_counts()[df['epoch_timestamp']].plot(kind='bar', ylim=(300, 40000))
+    plt.xlabel('Epoch Timestamp')
+    plt.ylabel('Frequency')
+    plt.title('Epoch Timestamp')
+    plt.show()
+
+
+def most_freq_d_ip(df):
+    print(df['most_freq_d_ip'].describe())
+    print(df['most_freq_d_ip'].value_counts())
+    df['most_freq_d_ip'].value_counts()[df['most_freq_d_ip'].value_counts() > 300].plot(kind='bar', ylim=(300, 40000))
+    plt.xlabel('Most Frequent Destination IP')
+    plt.ylabel('Frequency')
+    plt.title('Most Frequent Destination IP')
+    plt.show()
+
+
+def most_freq_sport(df):
+    print(df['most_freq_sport'].describe())
+    print(df['most_freq_sport'].value_counts())
+    df['most_freq_sport'].value_counts()[df['most_freq_sport'].value_counts() > 300].plot(kind='bar', ylim=(300, 40000))
+    plt.xlabel('Most Frequent Source Port')
+    plt.ylabel('Frequency')
+    plt.title('Most Frequent Source Port')
+    plt.show()
+
+
+def most_freq_dport(df):
+    print(df['most_freq_dport'].describe())
+    print(df['most_freq_dport'].value_counts())
+    df['most_freq_dport'].value_counts()[df['most_freq_dport'].value_counts() > 300].plot(kind='bar', ylim=(300, 40000))
+    plt.xlabel('Most Frequent Destination Port')
+    plt.ylabel('Frequency')
+    plt.title('Most Frequent Destination Port')
+    plt.show()
+
+
 def describeDataProtocols(df):
     print(df['most_freq_prot'].describe())
     print(df['most_freq_sport'].describe())
