@@ -7,6 +7,7 @@ from load_data import load_data, get_files_from_dir, root_path
 import analyze
 import describe
 
+# ========================================================================= Data Loading and Treatment =========================================================================
 df = load_data(get_files_from_dir(root_path))
 df = pd.concat(df)
 
@@ -17,12 +18,12 @@ def clean_dataframe(df):
 
 clean_dataframe(df)
 
-describe.df_description(df)
-
-"""describe.shapes(df)
-describe.boxplot_msm_size(df)
-describe.describeDataProtocols(df)
-describe.boxplot_sum_et(df)"""
+# ========================================================================= Describe =========================================================================
+#describe.df_description(df)
+#describe.shapes(df)
+#describe.boxplot_msm_size(df)
+#describe.describeDataProtocols(df)
+#describe.boxplot_sum_et(df)
 #describe.med_et(df)
 #describe.var(df)
 #describe.q1(df)
@@ -32,7 +33,8 @@ describe.boxplot_sum_et(df)"""
 #describe.average(df)
 #describe.describeTotalLength(df)
 
+# ========================================================================= Analysis =========================================================================
 #analyze.correlation_heat_map(df)
 #analyze.feature_importance(df)
-#analyze.pairplot_feature_importance(df)
+analyze.pairplot_feature_importance(df)
 
