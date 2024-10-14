@@ -10,17 +10,17 @@ L7_http / L4_tcp
 
 pck_size(q3_e,average,max_e,sum_e,ql,med_et,min_et)
 ethernet_frame_size(same as pck_size)
-total_length(same as pck_size)
+total_length(same as pck_size)   *
 device_name(L4_http,port_class_src,total_length,ARP_count,most_freq_port)
 
 most_freq_dport(q3_e,average,max_e,sum_e,ql,var,skew_et,med_et,min_et)
-min_et(same)
-med_et(same)
-var(same)
-ql(same)
-sum_e(same)
-max_e(same)
-average(same)
+min_et(same)*
+med_et(same)*
+var(same)*
+ql(same)*
+sum_e(same)*
+max_e(same)*
+average(same)*
 
 iqr_e / kurt_e
 
