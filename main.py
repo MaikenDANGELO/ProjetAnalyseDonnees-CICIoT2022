@@ -15,6 +15,7 @@ def clean_dataframe(df):
     df.set_index('Unnamed: 0', inplace=True)
     df.dropna()
     df.drop_duplicates()
+    df['device_name'] = df['device_name'].astype('category')
 
 clean_dataframe(df)
 
@@ -36,5 +37,10 @@ clean_dataframe(df)
 # ========================================================================= Analysis =========================================================================
 #analyze.correlation_heat_map(df)
 #analyze.feature_importance(df)
-analyze.pairplot_feature_importance(df)
+analyze.pairplot_feature_importance(df) # Il faut grouper les devices par types et faire le pair plot, aussi masquer la moitié inutile
+#analyze.kde_plot_mfreqdip(df)
+#analyze.kde_plot_mfreqdport(df)
+#analyze.kde_plot_mfreqsport(df)
+#analyze.kde_plot_epochtimestamp(df)
+#analyze.line_plot_arlobasecam_dip_ts(df)
 
