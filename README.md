@@ -20,7 +20,9 @@ Avec autant de fichiers CSV, il est impensable de tous les charger et analyser u
 
 Tout d'abord il faut nettoyer les données, par exemple en indexant correctement celles-ci, et en enlevant les valeurs nulles ou dupliquées. Après cela nous avons effectuer quelques tests pour prendre en main le jeu de données.
 
-Puis nous avons à décrire ces données, et trouver les colonnes interessantes / suspectes.
+Puis nous avons commencé à décrire ces données, et trouver les colonnes interessantes / suspectes. Pour cela nous nous avons donner un aperçu en construisant une correlation heatmap, ce qui ne nous a pas beaucoup avancé. Ensuite nous avons d'utiliser un algorithme pour trouver les "most important features", avec lesquelles nous avons construit un pairplot d'après le type des appareils (home_automation, camera, audio), mais les données n'étaient pas très explicites.
+
+C'est alors que nous avons commencé à entraîner des modèles de Machine Learning (ML), en commençant par un RandomForestClassifier, sur ces "most important features", afin de trouver le pourcentage de précision du modèle.
 
 ## Analyse de données
 
