@@ -51,5 +51,5 @@ clean_dataframe(df)
 #analyze.line_plot_arlobasecam_dip_ts(df)
 
 # ========================================================================= Model Analysis =========================================================================
-model.linear_regression(df)
+model.model_testing(df)
 

@@ -7,48 +7,69 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
 
+train_acc = []
+test_acc = []
+
 def print_score(clf, X_train, y_train, X_test, y_test, train=True):
     if train:
         pred = clf.predict(X_train)
         clf_report = pd.DataFrame(classification_report(y_train, pred, output_dict=True))
         print("Train Result:\n================================================")
-        print(f"Accuracy Score: {accuracy_score(y_train, pred) * 100:.2f}%")
+        accuracy = (accuracy_score(y_train, pred) * 100)
+        train_acc.append(accuracy)
+        print(f"Accuracy Score: {accuracy:.2f}%")
         print("_______________________________________________")
         print(f"CLASSIFICATION REPORT:\n{clf_report}")
         print("_______________________________________________")
-        print(f"Confusion Matrix: \n {confusion_matrix(y_train, pred)}\n")
+        print(f"Confusion Matrix: \n {confusion_matrix(y_train, pred)}\n\n")
         
     elif train==False:
         pred = clf.predict(X_test)
         clf_report = pd.DataFrame(classification_report(y_test, pred, output_dict=True))
-        print("Test Result:\n================================================")        
-        print(f"Accuracy Score: {accuracy_score(y_test, pred) * 100:.2f}%")
+        print("Test Result:\n================================================")  
+        accuracy = (accuracy_score(y_test, pred) * 100)
+        test_acc.append(accuracy)   
+        print(f"Accuracy Score: {accuracy:.2f}%")
         print("_______________________________________________")
         print(f"CLASSIFICATION REPORT:\n{clf_report}")
         print("_______________________________________________")
-        print(f"Confusion Matrix: \n {confusion_matrix(y_test, pred)}\n")
+        print(f"Confusion Matrix: \n {confusion_matrix(y_test, pred)}\n\n")
 
-def split(df):
-    X = df.drop('epoch_timestamp', axis=1)
+def model_testing(df):
+    important_features = ['most_freq_sport','epoch_timestamp','most_freq_d_ip','most_freq_dport','L3_ip_dst_count']    # Ordre décroissant d'importance
+
+    for feature in important_features:
+        print("============="+feature+"=============")
+        features_df = pd.DataFrame()
+        features_df[feature] = df[feature]
+        features_df['device_category'] = df['device_category']
+        random_forest_classifier(features_df, feature)
+        
+    sns.lineplot(data=train_acc, color='red', label="train_acc")
+    sns.lineplot(data=test_acc, color='green', label="test_acc")
+    plt.xlabel("important features")
+    plt.xticks([0,1,2,3,4],important_features, rotation=90)
+    plt.ylabel("pourcentage de précision")
+    plt.legend()
+    plt.show()
+
+def split(df, column):
+    X = pd.DataFrame(df[column])
     y = df.device_category
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
     return X_train,X_test,y_train,y_test
 
-def linear_regression(df):
-    df['device_name'] = df['device_name'].map({'amazonplug': 0.0, 'armcrest': 1.0,'arlobasecam':2.0,'arloqcam':3.0,'atomicoffeemaker':4.0,'boruncam':5.0,'dlinkcam':6.0,'echodot':7.0,'echospot':8.0,'echostudio':9.0,'eufyhomebase':10.0,'globelamp':11.0,'heimvisioncam':12.0,'heimvisionlamp':13.0,'homeeyecam':14.0,'luohecam':15.0,'nestcam':16.0,'nestmini':17.0,'netatmocam':18.0,'philipshue':19.0,'roomba':20.0,'simcam':21.0,'smartboard':22.0,'sonos':23.0,'teckin1':24.0,'teckin2':25.0,'yutron1':26.0,'yutron2':27.0})
-    df['device_category'] = df['device_category'].map({'home_automation': 0.0, 'camera': 1.0, 'audio': 2.0})
-    df['epoch_timestamp'] = pd.to_numeric(df['epoch_timestamp'], errors='coerce')
+def random_forest_classifier(df, col):
+    #df['device_name'] = df['device_name'].map({'amazonplug': 0, 'armcrest': 1,'arlobasecam':2,'arloqcam':3,'atomicoffeemaker':4,'boruncam':5,'dlinkcam':6,'echodot':7,'echospot':8,'echostudio':9,'eufyhomebase':10,'globelamp':11,'heimvisioncam':12,'heimvisionlamp':13,'homeeyecam':14,'luohecam':15,'nestcam':16,'nestmini':17,'netatmocam':18,'philipshue':19,'roomba':20,'simcam':21,'smartboard':22,'sonos':23,'teckin1':24,'teckin2':25,'yutron1':26,'yutron2':27})
+    df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
+
     imputer = SimpleImputer(strategy='mean')
     df[df.columns] = imputer.fit_transform(df)
-    df['epoch_timestamp'].dropna(inplace=True)
-    lr_clf = RandomForestClassifier(random_state=42)
-    X_train, X_test, y_train, y_test = split(df)
-    lr_clf.fit(X_train, y_train)
+    df.dropna(inplace=True)
 
-    y_pred_train = lr_clf.predict(X_train)
-    y_pred_test = lr_clf.predict(X_test)
+    lr_clf = RandomForestClassifier(random_state=42)
+    X_train, X_test, y_train, y_test = split(df, col)
+    lr_clf.fit(X_train, y_train)
 
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
-
-    # Il faut faire ça pour chaque most important feature
