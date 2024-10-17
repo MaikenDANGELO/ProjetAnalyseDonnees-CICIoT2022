@@ -5,6 +5,12 @@ import matplotlib.pyplot as plt # type: ignore
 from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import StackingClassifier
 from sklearn.impute import SimpleImputer
 
 train_acc = []
@@ -44,6 +50,13 @@ def model_testing(df):
         features_df[feature] = df[feature]
         features_df['device_category'] = df['device_category']
         random_forest_classifier(features_df, feature)
+        gradient_boosting_classifier(features_df, feature)
+        ada_boost_classifier(features_df, feature)
+        bagging_classifier(features_df, feature)
+        extra_trees_classifier(features_df, feature)
+        voting_classifier(features_df, feature)
+        stacking_classifier(features_df, feature)
+
         
     sns.lineplot(data=train_acc, color='red', label="train_acc")
     sns.lineplot(data=test_acc, color='green', label="test_acc")
@@ -68,6 +81,106 @@ def random_forest_classifier(df, col):
     df.dropna(inplace=True)
 
     lr_clf = RandomForestClassifier(random_state=42)
+    X_train, X_test, y_train, y_test = split(df, col)
+    lr_clf.fit(X_train, y_train)
+
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+
+
+
+def gradient_boosting_classifier(df, col):
+    df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
+
+    imputer = SimpleImputer(strategy='mean')
+    df[df.columns] = imputer.fit_transform(df)
+    df.dropna(inplace=True)
+
+    lr_clf = GradientBoostingClassifier(random_state=42)
+    X_train, X_test, y_train, y_test = split(df, col)
+    lr_clf.fit(X_train, y_train)
+
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+
+
+def ada_boost_classifier(df, col):
+    df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
+
+    imputer = SimpleImputer(strategy='mean')
+    df[df.columns] = imputer.fit_transform(df)
+    df.dropna(inplace=True)
+
+    lr_clf = AdaBoostClassifier(random_state=42)
+    X_train, X_test, y_train, y_test = split(df, col)
+    lr_clf.fit(X_train, y_train)
+
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+
+def bagging_classifier(df, col):
+    df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
+
+    imputer = SimpleImputer(strategy='mean')
+    df[df.columns] = imputer.fit_transform(df)
+    df.dropna(inplace=True)
+
+    lr_clf = BaggingClassifier(random_state=42)
+    X_train, X_test, y_train, y_test = split(df, col)
+    lr_clf.fit(X_train, y_train)
+
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+
+def extra_trees_classifier(df, col):
+    df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
+
+    imputer = SimpleImputer(strategy='mean')
+    df[df.columns] = imputer.fit_transform(df)
+    df.dropna(inplace=True)
+
+    lr_clf = ExtraTreesClassifier(random_state=42)
+    X_train, X_test, y_train, y_test = split(df, col)
+    lr_clf.fit(X_train, y_train)
+
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+
+def voting_classifier(df, col):
+    df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
+
+    imputer = SimpleImputer(strategy='mean')
+    df[df.columns] = imputer.fit_transform(df)
+    df.dropna(inplace=True)
+
+    clf1 = RandomForestClassifier(random_state=42)
+    clf2 = GradientBoostingClassifier(random_state=42)
+    clf3 = AdaBoostClassifier(random_state=42)
+    clf4 = BaggingClassifier(random_state=42)
+    clf5 = ExtraTreesClassifier(random_state=42)
+
+    lr_clf = VotingClassifier(estimators=[('rf', clf1), ('gbc', clf2), ('ada', clf3), ('bag', clf4), ('ext', clf5)], voting='hard')
+    X_train, X_test, y_train, y_test = split(df, col)
+    lr_clf.fit(X_train, y_train)
+
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+    print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+
+
+def stacking_classifier(df, col):
+    df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
+
+    imputer = SimpleImputer(strategy='mean')
+    df[df.columns] = imputer.fit_transform(df)
+    df.dropna(inplace=True)
+
+    clf1 = RandomForestClassifier(random_state=42)
+    clf2 = GradientBoostingClassifier(random_state=42)
+    clf3 = AdaBoostClassifier(random_state=42)
+    clf4 = BaggingClassifier(random_state=42)
+    clf5 = ExtraTreesClassifier(random_state=42)
+
+    lr_clf = StackingClassifier(estimators=[('rf', clf1), ('gbc', clf2), ('ada', clf3), ('bag', clf4), ('ext', clf5)], final_estimator=RandomForestClassifier(random_state=42))
     X_train, X_test, y_train, y_test = split(df, col)
     lr_clf.fit(X_train, y_train)
 
