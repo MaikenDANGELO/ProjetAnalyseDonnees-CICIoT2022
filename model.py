@@ -13,8 +13,22 @@ from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import StackingClassifier
 from sklearn.impute import SimpleImputer
 
+important_features = ['most_freq_sport','epoch_timestamp','most_freq_d_ip','most_freq_dport','L3_ip_dst_count']    # Ordre décroissant d'importance
 train_acc = []
 test_acc = []
+
+def line_plot_acc_model(title, axs, x, y):
+    sns.lineplot(data=train_acc, color='red', label="train_acc", ax=axs[x,y])
+    sns.lineplot(data=test_acc, color='green', label="test_acc", ax=axs[x,y])
+    axs[x,y].set_title(title)
+    plt.setp(axs,xticks=[0,1,2,3,4],xticklabels=important_features)
+    for ax in axs.flat:
+        ax.set(xlabel="important features", ylabel="accuracy %")
+        ax.set_xticklabels(important_features,rotation=90)
+    plt.ylabel("pourcentage de précision")
+    plt.legend()
+    train_acc.clear()
+    test_acc.clear()
 
 def print_score(clf, X_train, y_train, X_test, y_test, train=True):
     if train:
@@ -41,30 +55,38 @@ def print_score(clf, X_train, y_train, X_test, y_test, train=True):
         print("_______________________________________________")
         print(f"Confusion Matrix: \n {confusion_matrix(y_test, pred)}\n\n")
 
-def model_testing(df):
-    important_features = ['most_freq_sport','epoch_timestamp','most_freq_d_ip','most_freq_dport','L3_ip_dst_count']    # Ordre décroissant d'importance
-
-    for feature in important_features:
-        print("============="+feature+"=============")
+def model_test(f, df, axs,x,y):
+    for i in range(len(important_features)):
+        print("============="+important_features[i]+"=============")
         features_df = pd.DataFrame()
-        features_df[feature] = df[feature]
+        for j in range(i+1):
+            features_df[important_features[j]] = df[important_features[j]]
+
         features_df['device_category'] = df['device_category']
-        random_forest_classifier(features_df, feature)
-        gradient_boosting_classifier(features_df, feature)
-        ada_boost_classifier(features_df, feature)
-        bagging_classifier(features_df, feature)
-        extra_trees_classifier(features_df, feature)
-        voting_classifier(features_df, feature)
-        stacking_classifier(features_df, feature)
+        f(features_df, important_features[i])
+    line_plot_acc_model(f.__name__, axs,x,y)
+
+def model_testing(df):
+    fig, axs = plt.subplots(2,3)
+    x = 0
+    y = 0
+    models= [random_forest_classifier,gradient_boosting_classifier,ada_boost_classifier,bagging_classifier,extra_trees_classifier]
+    for model in models:
+        print("\n\n=========================="+model.__name__+"==========================")
+        model_test(model, df, axs,x,y)
+        y+=1
+        if y>2:
+            y=0
+            x+=1
+    plt.show()
+
+    #voting_classifier(features_df, feature)
+    #line_plot_acc_model("VotingClassifier")
+    #stacking_classifier(features_df, feature)
+    #line_plot_acc_model("StackingClassifier")
 
         
-    sns.lineplot(data=train_acc, color='red', label="train_acc")
-    sns.lineplot(data=test_acc, color='green', label="test_acc")
-    plt.xlabel("important features")
-    plt.xticks([0,1,2,3,4],important_features, rotation=90)
-    plt.ylabel("pourcentage de précision")
-    plt.legend()
-    plt.show()
+    
 
 def split(df, column):
     X = pd.DataFrame(df[column])
