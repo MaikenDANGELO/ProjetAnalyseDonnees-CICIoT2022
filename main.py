@@ -7,6 +7,7 @@ from load_data import load_data, get_files_from_dir, root_path
 import analyze
 import describe
 import model
+import model_analyze
 
 # ========================================================================= Data Loading and Treatment =========================================================================
 df = load_data(get_files_from_dir(root_path))
@@ -52,4 +53,5 @@ clean_dataframe(df)
 
 # ========================================================================= Model Analysis =========================================================================
 model.model_testing(df)
+#model_analyze.plot_mean_acc()
 
