@@ -19,7 +19,7 @@ important_features = ['most_freq_sport','epoch_timestamp','most_freq_d_ip','most
 train_acc = []
 test_acc = []
 csv_rows = [['train_acc','test_acc','feature','model']]
-csv_rows2 = [['model','train_acc']]
+csv_rows2 = [['model','train_acc', 'recall_score', 'f1_score', 'confusion_matrix']]
 
 
 
@@ -81,10 +81,17 @@ def model_test(f, df, axs,x,y):
             features_df[important_features[j]] = df[important_features[j]]
 
         features_df['device_category'] = df['device_category']
-        X_train, y_train = f(features_df, important_features[i])
-        accuracies = cross_val_score(models[f.__name__],X_train,y_train,cv=5,scoring='accuracy')
+        X_train, y_train, clf = f(features_df, important_features[i])
+
+        pred = clf.predict(X_train)
+        accuracies = cross_val_score(clf,X_train,y_train,cv=5,scoring='accuracy')
         mean_accuracy = accuracies.mean()
-        csv_rows2.append([f.__name__, mean_accuracy])
+
+        conf_matrix = confusion_matrix(y_train, pred)
+        recall_score = sklm.recall_score(y_train, pred, average='macro')
+        f1 = sklm.f1_score(y_train, pred, average='macro')
+
+        csv_rows2.append([f.__name__, mean_accuracy, recall_score, f1, conf_matrix])
     line_plot_acc_model(f.__name__, axs,x,y)
 
 def model_testing(df):
@@ -132,7 +139,7 @@ def random_forest_classifier(df, col):
 
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
-    return X_train, y_train
+    return X_train, y_train, lr_clf
 
 
 
@@ -149,7 +156,7 @@ def gradient_boosting_classifier(df, col):
 
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
-    return X_train, y_train
+    return X_train, y_train, lr_clf
 
 
 def ada_boost_classifier(df, col):
@@ -165,7 +172,7 @@ def ada_boost_classifier(df, col):
 
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
-    return X_train, y_train
+    return X_train, y_train, lr_clf
 
 def bagging_classifier(df, col):
     df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
@@ -180,7 +187,7 @@ def bagging_classifier(df, col):
 
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
-    return X_train, y_train
+    return X_train, y_train, lr_clf
 
 def extra_trees_classifier(df, col):
     df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})
@@ -195,7 +202,7 @@ def extra_trees_classifier(df, col):
 
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
     print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
-    return X_train, y_train
+    return X_train, y_train, lr_clf
 
 def voting_classifier(df, col):
     df['device_category'] = df['device_category'].map({'home_automation': 0, 'camera': 1, 'audio': 2})

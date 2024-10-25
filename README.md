@@ -27,6 +27,8 @@ C'est alors que j'ai commencé à entraîner des modèles de Machine Learning (M
 
 On peut observer que les modèles donnent tous la même précision moyenne (au millième près), sauf AdaBoostClassifier, aux alentours de 91%.
 
-## Analyse de données
+Après cela, j'ai ajouté au dataframe les recall_score et f1_score de chaque models pour chaque most_important_features, et ai réalisé un graphique pour les comparer.
+
+Pour vérifier mes résultats et mon workflow, j'ai décidé de lire l'article des scientifique ayant publié ce dataset et analyser ce qu'ils ont fait et comparer mon travail au leur, pour mieux comprendre et m'améliorer.
 
 ## Conclusion

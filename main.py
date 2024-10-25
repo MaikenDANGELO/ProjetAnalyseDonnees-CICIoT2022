@@ -53,6 +53,7 @@ clean_dataframe(df)
 
 # ========================================================================= Model Analysis =========================================================================
 #model.model_testing(df)
-model_analyze.plot_mean_acc()
-model_analyze.test()
+#model_analyze.plot_mean_acc()
+#model_analyze.test()
+model_analyze.plot_models_features()
 
