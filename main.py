@@ -52,6 +52,7 @@ clean_dataframe(df)
 #analyze.line_plot_arlobasecam_dip_ts(df)
 
 # ========================================================================= Model Analysis =========================================================================
-model.model_testing(df)
-#model_analyze.plot_mean_acc()
+#model.model_testing(df)
+model_analyze.plot_mean_acc()
+model_analyze.test()
 
